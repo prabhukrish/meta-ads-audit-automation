@@ -14,11 +14,12 @@ def fetch_insights(date_preset=None, time_range=None):
     url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{AD_ACCOUNT_ID}/insights"
 
     params = {
-        "fields": "ad_id,ad_name,ctr,cpm,frequency,spend",
-        "level": "ad",
-        "limit": 200,
-        "access_token": META_ACCESS_TOKEN
-    }
+    "fields": "ctr,cpm,frequency,spend,impressions",
+    "level": "ad",
+    "limit": 200,
+    "date_preset": date_preset,
+    "access_token": META_ACCESS_TOKEN
+ }
 
     if date_preset:
         params["date_preset"] = date_preset
