@@ -72,3 +72,4 @@ def fetch_ads_data():
         })
 
     return ads_data
+print("SAMPLE DATA:", data["data"][:2])
