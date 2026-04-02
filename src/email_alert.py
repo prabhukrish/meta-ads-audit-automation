@@ -7,7 +7,7 @@ load_dotenv()
 
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 SENDER_EMAIL = os.getenv("ALERT_EMAIL_TO")
-RECEIVER_EMAIL = os.getenv("ALERT_EMAIL_FROM")
+RECEIVER_EMAILS = os.getenv("ALERT_EMAIL_TO", "").split(",")
 
 if not BREVO_API_KEY or not SENDER_EMAIL or not RECEIVER_EMAIL:
     raise RuntimeError("Email environment variables are not set")
@@ -52,7 +52,7 @@ def send_daily_audit_email(html_content):
     
     payload = {
         "sender": {"email": SENDER_EMAIL},
-        "to": [{"email": RECEIVER_EMAIL}],
+        "to": [{"email": email.strip()} for email in RECEIVER_EMAILS],
         "subject": f"📊 Meta Ads Daily Audit – {subject_date}",
         "htmlContent": html_content,
     }
