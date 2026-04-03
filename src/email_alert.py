@@ -6,22 +6,24 @@ from datetime import date
 load_dotenv()
 
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
-SENDER_EMAIL = os.getenv("ALERT_EMAIL_TO")
+SENDER_EMAIL = os.getenv("ALERT_EMAIL_FROM")
 RECEIVER_EMAILS = os.getenv("ALERT_EMAIL_TO", "").split(",")
 
-if not BREVO_API_KEY or not SENDER_EMAIL or not RECEIVER_EMAIL:
+if not BREVO_API_KEY or not SENDER_EMAIL or not RECEIVER_EMAILS:
     raise RuntimeError("Email environment variables are not set")
 
 def send_email_alert(ad):
     url = "https://api.brevo.com/v3/smtp/email"
+    print("🔥 send_email_alert triggered")
+    # ✅ Print separately (correct way)
 
     payload = {
         "sender": {
-            "email": ALERT_EMAIL_FROM,
+            "email": SENDER_EMAIL,
             "name": "Creative Fatigue Alert"
         },
         "to": [
-            {"email": ALERT_EMAIL_TO}
+            {"email": email.strip()} for email in RECEIVER_EMAILS if email.strip()
         ],
         "subject": "🚨 Creative Fatigue Detected",
         "htmlContent": f"""
